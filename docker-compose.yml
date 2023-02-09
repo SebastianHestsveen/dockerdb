@@ -1,0 +1,31 @@
+version: '0.1'
+services:
+  db:
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_DB: mydatabase
+    secrets:
+      - db_password
+    profiles:
+      - prod
+  dev:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_DB: mydatabase
+    secrets:
+      - db_password
+    profiles:
+      - dev
+secrets:
+    db_password:
+      file:   ./db_password.txt
